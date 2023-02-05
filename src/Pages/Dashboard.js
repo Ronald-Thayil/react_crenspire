@@ -8,11 +8,11 @@ import { fetchProducts } from "../redux/reducers/productSlice";
 import Header from "./Header";
 const Dashboard = () => {
   const { products } = useSelector((state) => state.product);
-  const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setHeaderToken(token)
+    const userLocal = localStorage.getItem("token");
+    setHeaderToken(userLocal);
     dispatch(fetchProducts());
   }, [dispatch]);
 
