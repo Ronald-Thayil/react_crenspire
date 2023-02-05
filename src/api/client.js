@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { BASE_URL } from '../utils/constants';
 
 const BASE_URL = "http://localhost:4000";
 export const METHODS = {
@@ -18,7 +17,7 @@ function createAxiosInstance() {
   return axios.create(axiosConfig);
 }
 const request = createAxiosInstance();
-const cache = {};
+
 
 const client = ({
   method = METHODS.POST,
@@ -28,15 +27,12 @@ const client = ({
   invalidateQuery = false,
   ...rest
 }) =>
-  useCache && !invalidateQuery && cache[url]
-    ? Promise.resolve(cache[url])
-    : request({
-        method,
-        url,
-        data,
-        //   paramsSerializer,
-        ...rest,
-      });
+  request({
+    method,
+    url,
+    data,
+    ...rest,
+  });
 
 export const clientWithHeaders = ({
   method = METHODS.POST,
@@ -108,8 +104,5 @@ export function setHeaderToken(token) {
   else delete request.defaults.headers.Authorization;
 }
 
-export function setHeader(key, value) {
-  request.defaults.headers[key] = value;
-}
 
 export default client;
